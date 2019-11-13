@@ -1,0 +1,434 @@
+---
+title: "Conos SCTransformed"
+author: "Evelin Aasna"
+date: "8/16/2019"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r include=FALSE}
+devtools::install_github("hms-dbmi/conos")
+library(conos)
+library(Seurat)
+library(ggplot2)
+library(cowplot)
+library(dplyr)
+library(reshape2)
+library(SingleCellExperiment)
+library(SummarizedExperiment)
+library(scmap)
+library(pheatmap)
+source("labelling_integrated_modules/seurat_utils.R")
+```
+
+This notebook starts from saved Seurat objects for both menstrual and decidual data. Standard Seurat QC, filtering, normalization is not included here but scripts can be seen https://github.com/eaasna/scRNA
+
+Pre analysis steps for both menstrual and decidual reference data:
+* filtered out cells expressing <500 genes
+* filtered out genes expressed in <0.1% of cells
+* filtered out cells expressing >20% mitochondrial genes
+* SCTransformed
+
+Reading naively combined, QCd, SCTransformed Seurat object of all menstrual samples.
+```{r}
+load(file = paste0("/icgc/dkfzlsdf/analysis/B210/Evelin/menstrual_RData/SCT_seu.RData"))
+seu.list = list(seu)
+seu.list[[1]]$origin <- "menstrual"
+```
+
+```{r fig.height=5, fig.width=6}
+DimPlot(seu.list[[1]]) + labs(title = "Seurat clusters for menstrual data")
+```
+
+
+  
+First trimester decidua data from: https://www.ebi.ac.uk/arrayexpress/experiments/E-MTAB-6701/files/processed/. Fetal cells filtered out.
+Reading QCd, SCTransformed Seurat object of decidua data. Created using decidua_pre.R -> decidua_normalization.R.
+```{r}
+load( file = paste0("/icgc/dkfzlsdf/analysis/B210/Evelin/decidua/SCT_seu.RData" ))
+seu$origin <- "decidua"
+seu.list[[length(seu.list)+1]] = seu 
+rm(seu)
+```
+
+```{r}
+DimPlot(seu.list[[2]], group.by = "annotation") + labs(title = "Cell types in decidual data")
+```
+
+```{r}
+names(seu.list) = c("menstrual", "decidua")
+```
+
+
+# Using seurat anchors to integrate decidua and menstrual data
+```{r}
+options(future.globals.maxSize=7229000000)
+seu_features <- SelectIntegrationFeatures(object.list = seu.list, nfeatures = 3000)
+seu.list <- PrepSCTIntegration(object.list = seu.list, anchor.features = seu_features, verbose = FALSE)
+
+anchors <- FindIntegrationAnchors(object.list = seu.list, normalization.method = "SCT", 
+                                  anchor.features = seu_features, verbose = TRUE)
+seu.integrated <- IntegrateData(anchorset = anchors, normalization.method = "SCT", verbose = FALSE, preserve.order = TRUE )
+```
+
+```{r}
+seu.integrated <- RunPCA(seu.integrated, verbose = FALSE)
+seu.integrated <- RunUMAP(seu.integrated, dims = 1:30)
+```
+
+* DC <- dendritic cells
+* dM <- macrophages
+* dNK <- natural killer cells
+* dP <- pericytes
+* dS <- smooth muscle cells
+
+```{r fig.width=10, fig.height=7}
+DimPlot(seu.integrated, group.by = "annotation", cells = which(!seu.integrated$annotation %in% c("Endo (f)"))) 
+```
+
+All menstrual cells are NA since they have not been labelled yet. Menstrual cells seem to cluster mainly around epithelial, endothelial, smooth muscle cells and pericytes. 
+
+```{r}
+rm(seu.integrated)
+```
+
+# Marker gene based cluster labels
+```{r}
+source("labelling_integrated_modules/marker_library.R")
+head(marker.list) # most markers from Angela's list, I added some from papers
+```
+
+Seurat object for gathering all annotations
+```{r include=FALSE}
+seu.annotated = seu.list[["menstrual"]]
+```
+
+
+Function checks 40 marker genes for cluster and outputs cell types whose marker genes are among those 40. 
+```{r}
+find_celltype_markers <- function(ident1, ident2){
+  print(paste("Cluster", ident1, ident2))
+  markers = row.names(FindMarkers(seu.annotated, ident.1 = ident1, ident.2 = ident2, min.pct=0.25, only.pos = TRUE)[1:40,])
+  print(unlist(marker.list)[which(unlist(marker.list) %in% markers[which(markers %in% unlist(marker.list))])])
+}
+```
+
+Which cell type markers are among first 40 marker genes for each cluster. Initially comparing each cluster to all others and only looking at positive markers.
+```{r}
+for (i in 1:14){
+  find_celltype_markers(i, NULL)
+}
+```
+
+Labelling some clusters stromal or endothelial based on this approach. Not conclusive results for the majority of clusters.
+```{r fig.height=5, fig.width=15}
+stro.clusters = c(1, 4, 5, 6, 8, 10)
+endo.clusters = c(13)
+```
+
+## Endothelial markers
+Looking at expression levels of endothelial marker genes.
+```{r fig.width=15, fig.height=3}
+celltype = "all_endothelial"
+endo.marker.list = marker.list[[celltype]][which(marker.list[[celltype]] %in% row.names(seu.annotated[["SCT"]]@data))]
+VlnPlot(seu.annotated, features = endo.marker.list, ncol = 5, pt.size = 0.1) + 
+      labs(title = "Endothelial marker genes") +
+      theme(plot.title = element_text(size = 15))
+```
+Cluster 13 is definitely endothelial cells but it is a very small cluster. 
+
+## Stromal markers
+```{r}
+stro.marker.list = unique(c(marker.list$stromal, marker.list$up_stroma_vs_gland, marker.list$krjutskov_endometrial_stromal, marker.list$stromal_odd, marker.list$stro_ref))
+stro.marker.list = stro.marker.list[which(stro.marker.list %in% row.names(seu.annotated[["SCT"]]@data))]
+stro.marker.list
+```
+
+There are many stromal cell marker genes but many of them might not be variably expressed between clusters.
+```{r}
+stro.marker.list = stro.marker.list[which(stro.marker.list %in% VariableFeatures(seu.annotated)[1:1000])]
+stro.marker.list
+```
+
+```{r fig.width=12, fig.height=9}
+VlnPlot(seu.annotated, features = stro.marker.list, ncol = 4, pt.size = 0.1) + 
+      labs(title = "Stromal marker genes") +
+      theme(plot.title = element_text(size = 15))
+```
+
+```{r fig.width=12, fig.height=9}
+FeaturePlot(seu.annotated, features = stro.marker.list, reduction = "umap", ncol = 4, pt.size = 0.1) + 
+      labs(title = "Stromal marker genes") +
+      theme(plot.title = element_text(size = 15))
+```
+
+Clusters 1, 4, 5, 8, 10 seem to more highly express stromal marker genes.
+
+## Epithelial markers
+```{r}
+epi.marker.list = unique(c(marker.list$epi_ref, marker.list$epithelial, marker.list$endometrial_epithelium, marker.list$krjutskov_endometrial_epithelial))
+epi.marker.list = epi.marker.list[which(epi.marker.list %in% row.names(seu.annotated[["SCT"]]@data))]
+```
+
+
+```{r fig.width=12, fig.height=6}
+VlnPlot(seu.annotated, features = epi.marker.list, ncol = 4, pt.size = 0.1) + 
+      labs(title = "Epithelial marker genes") +
+      theme(plot.title = element_text(size = 15))
+```
+
+
+```{r fig.width=12, fig.height=6}
+FeaturePlot(seu.annotated, features = epi.marker.list, reduction = "umap", ncol = 4, pt.size = 0.1) + 
+      labs(title = "Epithelial marker genes") +
+      theme(plot.title = element_text(size = 15))
+```
+
+Labelling clusters that highly express epithelial markers.
+```{r}
+epi.clusters = c(0, 2, 3, 7, 14)
+```
+
+```{r }
+seu.annotated$marker = 0
+seu.annotated$marker[which(seu.annotated$seurat_clusters %in% stro.clusters) ]="stromal"
+seu.annotated$marker[which(seu.annotated$seurat_clusters == endo.clusters) ]="endothelial"
+seu.annotated$marker[which(seu.annotated$seurat_clusters %in% epi.clusters) ]="epithelial"
+seu.annotated$marker[which(seu.annotated$marker==0) ]=NA
+```
+
+```{r fig.width=10, fig.height=7}
+DimPlot(seu.annotated, reduction = "umap", group.by = "marker")
+```
+
+Which clusters are not yet labelled?
+```{r}
+setdiff(seq(14), c(epi.clusters, stro.clusters, endo.clusters))
+```
+
+```{r fig.width=10, fig.height=7}
+DimPlot(seu.list[[1]]) + labs(title = "Seurat clusters of menstrual data")
+```
+
+
+## Cluster 11
+
+Which genes are differentially expressed in cluster a compared to cluster b. And which of those 40 most variable genes are among cell type markers. 
+
+What separates cluster 11 from nearby stromal cluster 1.
+```{r}
+find_celltype_markers(11, 1)
+```
+
+```{r}
+find_celltype_markers(11, 6)
+```
+
+```{r}
+find_celltype_markers(11, 13)
+```
+
+
+## Cluster 9
+```{r}
+find_celltype_markers(9, 12)
+```
+
+
+```{r}
+find_celltype_markers(9, 14)
+```
+
+```{r}
+find_celltype_markers(9, 8)
+```
+
+```{r}
+find_celltype_markers(9, 7)
+```
+
+### Cluster 12
+```{r}
+find_celltype_markers(12, 9)
+```
+
+```{r}
+find_celltype_markers(12, 7)
+```
+
+```{r}
+find_celltype_markers(12,14)
+```
+
+Clusters 9, 11, 12 still inconclusive. Next trying to label cell types based on reference from decidua.
+
+# Labelling cells with Conos
+
+```{r message = FALSE, warning=FALSE}
+# how many cores on HPC?
+con <- Conos$new(seu.list, n.cores=4)
+```
+
+```{r}
+con$buildGraph(k=30, k.self=5, space='PCA', ncomps=30, n.odgenes=2000, 
+               matching.method='mNN', metric='angular', 
+               score.component.variance=TRUE, verbose=TRUE)
+
+con$findCommunities(method=leiden.community, resolution=1)
+```
+
+
+Propagating labels from reference
+```{r}
+cellannot <- seu.list[["decidua"]]$annotation
+
+new.label.probabilities <- con$propagateLabels(labels = cellannot, verbose=T, fixed.initial.labels=T)
+new.label.probabilities <- new.label.probabilities[complete.cases(new.label.probabilities),]
+```
+
+Finding cases where probability for most likely cell type label was low.
+```{r, fig.width=5, fig.height=5}
+uncertainty = 1 - apply(new.label.probabilities, 1, max)
+con$plotGraph(colors=uncertainty, show.legend=T, legend.title="Uncertainty", legend.pos=c(1, 0))
+```
+
+
+```{r include=FALSE}
+new.annot <- setNames(colnames(new.label.probabilities)[apply(new.label.probabilities,1,which.max)], rownames(new.label.probabilities))
+```
+
+Clusters labelled based on reference.
+```{r}
+con$plotPanel(groups = new.annot)
+```
+
+
+Setting all predicted labels where uncertainty >0.3 to NA. 
+```{r}
+new.annot[which(uncertainty>0.3)] = NA
+conos = data.frame(barcode = colnames(seu.annotated[["SCT"]])) %>% 
+  left_join(data.frame(barcode = names(new.annot), celltype = unname(new.annot)), by = "barcode")
+
+seu.annotated$conos = conos$celltype
+```
+
+Projecting conos predictions onto initial UMAP from Seurat
+```{r fig.height=7, fig.width=10}
+DimPlot(seu.annotated, reduction = "umap", group.by = "conos")
+```
+
+These variable are not necessary. Gathering all annotations into variable seu.annotated
+```{r}
+rm(con, conos, new.label.probabilities)
+```  
+
+
+# Labelling cells with scmap
+Scmap uses SingleCellExperiment objects as input. Constructing sce object from menstrual data Seurat object.
+```{r}
+rowData = data.frame(feature_symbol = row.names(seu.annotated[["SCT"]]))
+colData = data.frame(Barcode = colnames(seu.annotated[["SCT"]]))
+cluster_info = data.frame(cluster = Idents(seu.annotated))
+cluster_info$Barcode = row.names(cluster_info)
+colData = left_join(colData, cluster_info, by = "Barcode")
+
+
+assays = return_assay(seu.annotated, "SCT")
+se = SummarizedExperiment(assays = list(counts = assays[[1]], logcounts = assays[[2]]), rowData = rowData, colData = colData)
+rm(assays, cluster_info, rowData)
+
+menstrual = as(se, "SingleCellExperiment")
+```
+
+Constructing sce object from decidua Seurat object.
+```{r}
+rowData = data.frame(feature_symbol = row.names(seu.list[["decidua"]][["SCT"]]))
+colData = data.frame(Barcode = colnames(seu.list[["decidua"]][["SCT"]]))
+
+# add celltype to SingleCellExperiment
+colData = read.table("/icgc/dkfzlsdf/analysis/B210/Evelin/E-MTAB-6701_arrayexpress_10x_meta.txt", header = TRUE)
+colData = colData[which(colData$Cell %in% colnames(seu.list[["decidua"]][["SCT"]])), ]
+
+
+assays = return_assay(seu.list[["decidua"]], "SCT")
+
+se = SummarizedExperiment(assays = list(counts = assays[[1]], logcounts = assays[[2]]), rowData = rowData, colData = colData)
+rm(seu)
+
+decidua = as(se, "SingleCellExperiment")
+rm(seu.list)
+```
+
+Finding the 1000 most informative genes. Changing number of genes to 500 did not give significantly different end result. 
+```{r}
+decidua <- selectFeatures(decidua, suppress_plot = TRUE, 1000)
+decidua <- indexCluster(decidua, cluster_col = "annotation")
+```
+
+Variable genes
+```{r}
+pheatmap(metadata(decidua)$scmap_cluster_index, show_rownames = FALSE)
+```
+
+
+```{r include=FALSE}
+scmapCluster_results <- scmapCluster(
+  projection = menstrual, 
+  index_list = list(
+    decidua = metadata(decidua)$scmap_cluster_index
+  )
+)
+```
+
+
+```{r fig.width=10, fig.height=7}
+seu.annotated$scmap = scmapCluster_results$combined_labs
+seu.annotated$scmap[which(seu.annotated$scmap=="unassigned")]=NA
+DimPlot(seu.annotated, reduction = "umap", group.by = "scmap")
+```
+
+# Comparing different methods
+```{r}
+df = as.data.frame(table(colData(decidua)$annotation))
+ggplot(df, aes(x = reorder(Var1, -Freq), y = Freq)) + geom_col() + 
+  theme_bw() + theme(axis.text.x = element_text(angle = 45)) + 
+  labs(title = "decidua reference cell types", y = "no of cells") +
+  theme(axis.text.x = element_text(angle = 90), axis.title.x = element_blank())
+```
+
+Number of projected cell types. 
+```{r fig.height=5, fig.width=10}
+seu.annotated$conos[which(is.na(seu.annotated$conos))]="unassigned"
+seu.annotated$scmap[which(is.na(seu.annotated$scmap))]="unassigned"
+df <- as.data.frame(table(seu.annotated$conos)) %>% full_join(as.data.frame(table(seu.annotated$scmap)), by = "Var1")
+colnames(df) <- c("celltype", "conos", "scmap")
+df[is.na(df)] <- 0
+df <- df[which(df$conos!=0 | df$scmap!=0), ]
+df = melt(df, id.vars = "celltype")
+
+ggplot(df, aes(x=reorder(celltype, -value), y=value, fill=variable)) +
+  geom_bar(stat='identity', position='dodge') +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90), axis.title.x = element_blank()) +
+  labs(title= "menstrual data predicted cell types", y = "no of cells")
+```
+
+Decidua and menstrual datasets have very different cell type composition which is to be expected. I chose a cut off point of >70% probability of correct cell type prediction for conos. As a result there are many more unassigned cells in scmap output. In general both methods predicted a similar cell type composition.  
+
+```{r fig.width=10, fig.height=21}
+plot_grid(DimPlot(seu.annotated, reduction = "umap", group.by = "marker") + 
+            labs(title = "Known markers") + theme(plot.title = element_text(size = 15)),
+          DimPlot(seu.annotated, reduction = "umap", group.by = "conos") + 
+            labs(title = "Conos") + theme(plot.title = element_text(size = 15)), 
+          DimPlot(seu.annotated, reduction = "umap", group.by = "scmap") + 
+            labs(title = "Scmap") + theme(plot.title = element_text(size = 15)) , ncol = 1)
+```
+
+Stromal cell types from known marker gene list are not directly comparable to one cell type in decidua dataset. Still there is consensus between all three methods. 
+ 
