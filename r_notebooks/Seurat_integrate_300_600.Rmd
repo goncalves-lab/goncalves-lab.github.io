@@ -1,0 +1,235 @@
+---
+title: "R Seurat Integration Notebook 1"
+output: html_notebook
+---
+
+
+Load libraries:
+```{r}
+library(Seurat)
+library(future)
+options(future.globals.maxSize=990 * 1024^2)
+library(dplyr)
+library(gridExtra)
+```
+Load data:
+```{r}
+controls=Read10X(data.dir = paste("/icgc/dkfzlsdf/analysis/B210/Luca/scRNA_test_015035/combined/combine_indexes/aggr_controls/outs/filtered_feature_bc_matrix/",sep=""))
+treated=Read10X(data.dir = paste("/icgc/dkfzlsdf/analysis/B210/Luca/scRNA_test_015035/combined/combine_indexes/aggr_treated/outs/filtered_feature_bc_matrix/",sep=""))
+```
+Create Seurat objects and perfrom SC Transformation:
+```{r}
+ seu_list = c(controls,treated)
+ annot_list = c("controls", "treated")
+
+i=1  
+  seu_list[[i]] <- CreateSeuratObject( seu_list[[i]], min.features = 100 )
+  seu_list[[i]]@meta.data[,"sample"] <- annot_list[i]
+  
+  seu_list[[i]] <- PercentageFeatureSet(seu_list[[i]], pattern = "^mt-", col.name = "percent.mt")
+  #high_mt_cells = names(seu_list[[i]]$nFeature_RNA[seu_list[[i]]$percent.mt >= 20])
+  #seu_list[[i]] = subset(seu_list[[i]], cells = high_mt_cells, invert = TRUE)
+  seu_list[[i]] <- subset(seu_list[[i]], subset = nFeature_RNA >= 600 & percent.mt < 20 )
+  
+  # SCTransform replaces NormalizeData, FindVariableFeatures, ScaleData
+  # DO NOT run ScaleData after SCTransform
+  seu_list[[i]] <- SCTransform(seu_list[[i]], verbose = FALSE, conserve.memory = FALSE, vars.to.regress = "percent.mt")
+
+i=2
+
+seu_list[[i]] <- CreateSeuratObject( seu_list[[i]], min.features = 100 )
+  seu_list[[i]]@meta.data[,"sample"] <- annot_list[i]
+  
+  seu_list[[i]] <- PercentageFeatureSet(seu_list[[i]], pattern = "^mt-", col.name = "percent.mt")
+  #high_mt_cells = names(seu_list[[i]]$nFeature_RNA[seu_list[[i]]$percent.mt >= 20])
+  #seu_list[[i]] = subset(seu_list[[i]], cells = high_mt_cells, invert = TRUE)
+  seu_list[[i]] <- subset(seu_list[[i]], subset = nFeature_RNA >= 300 & percent.mt < 20 )
+  
+  seu_list[[i]] <- SCTransform(seu_list[[i]], verbose = FALSE, conserve.memory = FALSE, vars.to.regress = "percent.mt")
+```
+Perform the integration of treated and controls:
+```{r}
+seu_features <- SelectIntegrationFeatures(object.list = seu_list, nfeatures = 3000)
+seu_list <- PrepSCTIntegration(object.list = seu_list, anchor.features = seu_features, verbose = FALSE)
+
+# considering 80 nearest neighbors when filtering anchors <- close to upper limit for smallest sample
+anchors <- FindIntegrationAnchors(object.list = seu_list, normalization.method = "SCT", anchor.features = seu_features, verbose = FALSE, k.filter = 50)
+seu <- IntegrateData(anchorset = anchors, normalization.method = "SCT", verbose = FALSE)
+```
+
+look at normalised data:
+```{r}
+seu[["integrated"]]@scale.data
+seu[["integrated"]]@counts
+seu[["integrated"]]@data
+```
+Run PCA:
+```{r}
+seu <- RunPCA(seu, features = VariableFeatures(seu))
+```
+Identify clusters and run UMAP:
+```{r}
+seu <-FindNeighbors(seu, dims = 1:10)
+seu <- FindClusters(seu, resolution = 0.5)
+seu <- RunUMAP(seu, dims = 1:10)
+```
+Plot UMAP reduction, labelling cells by cluster or by group:
+```{r}
+dimplot1=DimPlot(seu, reduction = "umap",label = 1)
+seu$group=seu@meta.data[,"sample"]
+#dimplot2=DimPlot(seu, reduction = "umap",label = 1,group.by = "group",cols=c("blue3","orange"))
+dimplot2=DimPlot(seu, reduction = "umap",label = 1,split.by = "group")
+#grid.arrange(dimplot1,dimplot2)
+dimplot2
+```
+
+```{r}
+#seu2=seu
+#seu2$group=factor(seu2$group,levels=c("controls","treated"))
+#dimplot3=DimPlot(seu2, reduction = "umap",label = 1,group.by = "group",cols=c("blue3","orange"))
+dimplot3=DimPlot(seu, reduction = "umap",label = 1,group.by = "group",cols=c("blue","orange"))
+```
+Save the plots:
+```{r fig.width=7, fig.height=10}
+png(paste("~/Dim_plot_aggr_controls_treated_300_600.png",sep="_"),res = 600,width=12,height=10,units='in')
+grid.arrange(dimplot1,dimplot3)
+dev.off()
+VlnPlot(seu, features = c( "Col1a1", "Col3a1", "Col5a1", "Col12a1", "Dcn", "Fbln2"),ncol = 2)
+```
+Identify markers across clusters:
+```{r}
+seu.markers <- FindAllMarkers(seu, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+top10 <- seu.markers %>% group_by(cluster) %>% top_n(n = 10, wt = avg_logFC)
+
+id="aggr_control_treated"
+threshold="300_800"
+pct_mt=20
+
+markers_filtmat=seu.markers[seu.markers$p_val_adj<0.05 & seu.markers$avg_logFC>=1,]
+write.table(markers_filtmat,file=paste("~/Seurat",id,threshold,"selected_markers.csv",sep="_"),sep=",")
+write.table(top10,file=paste("~/Seurat",id,threshold,"_top10_selected_markers.csv",sep="_"),sep=",")
+
+clust_control_count=1:19
+for (i in 0:18) { 
+clust_control_count[i+1]=sum(seu$seurat_clusters[seu$group=="controls"]==i) 
+}
+
+clust_count=1:19
+for (i in 0:18) { 
+clust_count[i+1]=sum(seu$seurat_clusters==i) 
+}
+```
+Identify markers between groups:
+```{r}
+markers_CT=FindMarkers(seu, ident.1="controls",group.by="group")
+
+subsetC=subset(seu,cells=labels(seu$group[seu$group=="controls"]))
+subsetT=subset(seu,cells=labels(seu$group[seu$group=="treated"]))
+```
+Look for genes in the selected features:
+```{r fig.width=8, fig.height=5}
+seu_features[grep("Pall",seu_features)]
+```
+markers1=c("Notch1","Notch4","Nav3") #c("Igfbp2","Odc1","Il17f","Notch1","Notch4","Nav3")
+
+```{r fig.width=5, fig.height=7.5}
+VlnPlot(seu, features = c( "Cd207" ,"Il1b","Il17f","S100a4"),ncol = 2,group.by = "group",pt.size = 0.2)
+```
+
+```{r fig.width=8, fig.height=7}
+v1=VlnPlot(subsetC, features = markers1,ncol = 1)
+v2=VlnPlot(subsetT, features = markers1,ncol = 1)
+
+grid.arrange(arrangeGrob(v1,top =text_grob("controls",size=20  ) ) , arrangeGrob(v2,top =text_grob("treated", size=20) )  ,nrow=1)
+```
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_kerat_granular.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features = c( "Flg2", "Lor"),ncol = 1)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_langerhans.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features = c( "Cd207"),ncol = 1)
+dev.off()
+
+plot n_features across clusters: 
+
+```{r fig.width=8, fig.height=6}
+data2=data.frame(cluster=factor(seu$seurat_clusters),n_features=as.vector(seu$nFeature_SCT))
+row.names(data2)=c()
+ggplot(data=data2, aes(x=cluster,y=n_features))+geom_violin(aes(x=cluster,y=n_features,fill=cluster))
+```
+
+```{r}
+VlnPlot(seu, features = c( "Gata3", "Tbx21"),ncol = 1)
+```
+
+```{r}
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_CD4_helper.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features = c( "Gata3", "Tbx21",  "Ccl4", "Cxcr6"),ncol = 1)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_CD4.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features = c( "Cd4"),ncol = 1)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_CD8_exhausted.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features = c( "Cxcl13", "Pdcd1", "Ctla4"),ncol = 1)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_CD8_naive.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features = c( "Tcf7", "Ccr7", "Lef1", "Il7r", "Il6st", "Foxo1","Myc"),ncol = 1)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_memoryCD4_and_monocytes.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features = c( "Cd14","Lyz2","S100a4"),ncol = 1)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Feature_plot_markers_keratinocytes.png",sep="_"),res = 600,width=18,height=12,units='in')
+FeaturePlot(seu, features =c("Krt5","Krt10","Krt14" ,"Ptgs1"),ncol=1)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_keratinocytes.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features =c("Krt5","Krt10","Krt14" ,"Ptgs1"),ncol=1)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_epithelial.png",sep="_"),res = 600,width=18,height=12,units='in')
+print(VlnPlot(seu, features = c( "Krt17", "Krt79", "Cd200", "Lrig1"),ncol = 1))
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Vln_plot_markers_stem.png",sep="_"),res = 600,width=18,height=12,units='in')
+print(VlnPlot(seu, features = c( "Cd34", "Lgr5", "Lrig1", "Krt14"),ncol = 1))
+dev.off()
+
+png(paste("~/plot_seurat_",id,threshold,pct_mt,"_Vln_plot_markers_T_cytotoxic_Abdul.png",sep="_"),res = 600,width=18,height=12,units='in')
+VlnPlot(seu, features = c( "Nkg7",  "Gzmb", "Ifng", "Prf1"),ncol = 2)
+dev.off()
+
+png(paste("~/plot_seurat_",id,threshold,pct_mt,"_Vln_plot_markers_cd4_T_helper_Abdul.png",sep="_"),res = 600,width=12,height=6,units='in')
+VlnPlot(seu, features = c( "Gata3", "Tbx21", "Eomes", "Ccl4", "Ccl5", "Cxcr6"),ncol = 3)
+dev.off()
+
+png(paste("~/plot_seurat_",id,threshold,pct_mt,"_Feature_plot_markers_T_cytotoxic_Abdul.png",sep="_"),res = 600,width=12,height=6,units='in')
+FeaturePlot(pbmc, features = c( "Nkg7",  "Gzmb", "Ifng", "Prf1"),ncol = 2)
+dev.off()
+
+png(paste("~/plot_seurat_",id,threshold,pct_mt,"_Feature_plot_markers_cd4_T_helper_Abdul.png",sep="_"),res = 600,width=12,height=6,units='in')
+FeaturePlot(seu, features = c( "Gata3", "Tbx21", "Eomes", "Ccl4", "Ccl5", "Cxcr6"),ncol = 3)
+dev.off()
+#FeaturePlot
+#FeaturePlot(pbmc, features =c("Gzma", "Gzmb", "Gzmh", "Gzmk", "Gzmm", "Prf1", "Nkg7", "Klrd1", "Gnly"),ncol=3)
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Feature_plot_markers_cd8_T_cytotoxic_Abdul.png",sep="_"),res = 600,width=12,height=6,units='in')
+FeaturePlot(seu, features =c("Gzma", "Gzmb", "Gzmm", "Prf1", "Nkg7", "Klrd1"),ncol=3)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Feature_plot_markers_keratinocytes.png",sep="_"),res = 600,width=12,height=6,units='in')
+FeaturePlot(seu, features =c("Krt5","Krt10","Krt14" ,"Ptgs1"),ncol=3)
+dev.off()
+
+png(paste("~/plot_seurat",id,threshold,pct_mt,"Feature_plot_markers_epithelial.png",sep="_"),res = 600,width=12,height=6,units='in')
+FeaturePlot(seu, features =c("Krt17", "Krt79", "Cd44", "Cd200", "Lrig1"),ncol=2)
+dev.off()
+```
+
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
