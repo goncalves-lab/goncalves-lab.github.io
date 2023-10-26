@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Goncalves Lab</title>
+ <link href="http://localhost:4000/atom.xml" rel="self"/>
+ <id>http://localhost:4000</id>
+ <updated>2023-10-26T10:41:57+02:00</updated>
+ <author>
+   <name>Angela Goncalves</name>
+   <uri></uri>
+   <email>a.goncalves @ dkfz</email>
+ </author>
+
+ 
+
+ <entry>
+   <title>Winkler et al 2023 - mammalian menopause</title>
+   <link href="http://localhost:4000/2023/10/25/erp.html"/>
+   <id>http://localhost:4000/2023/10/25/erp</id>
+   <updated>2023-10-25T00:00:00+02:00</updated>
+   <content type="html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt; &lt;p&gt;&lt;img src=&quot;/img/menopause.jpg&quot; alt=&quot;image&quot; width=&quot;150&quot; style=&quot;float: left; margin-right: 1em;&quot; /&gt; &lt;a href=&quot;https://goncalves-lab.github.io/ERP/&quot;&gt;Supplementary Table 1&lt;/a&gt; with information on placental mammalian species and their potential to reach end of reproduction. The table contains information on whether species reached the end of their reproductive potential, what percentage of life is spent in...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Winkler et al 2023 - mouse estrus single-cell data</title>
+   <link href="http://localhost:4000/2022/08/12/estrus.html"/>
+   <id>http://localhost:4000/2022/08/12/estrus</id>
+   <updated>2022-08-12T00:00:00+02:00</updated>
+   <content type="html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt; &lt;p&gt;&lt;img src=&quot;/img/estrus.png&quot; alt=&quot;image&quot; width=&quot;130&quot; style=&quot;float: left; margin-right: 1em;&quot; /&gt; Atlas of the mouse female reproductive during cycling and ageing. Ovary, oviduct, uterus, cervix and vagina of C57BL/6 mice were sampled. Experimental timepoints were 3 months old mice across all four estrus phases, pregnant (decidualized) and aged (18 months,...</content>
+ </entry>
+
+ 
+
+ <entry>
+   <title>Schefzik et al 2021 - waddR R/Bioconductor package</title>
+   <link href="http://localhost:4000/2021/04/01/waddr.html"/>
+   <id>http://localhost:4000/2021/04/01/waddr</id>
+   <updated>2021-04-01T00:00:00+02:00</updated>
+   <content type="html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt; &lt;p&gt;&lt;img src=&quot;/img/waddr.png&quot; alt=&quot;image&quot; width=&quot;130&quot; style=&quot;float: left; margin-right: 1em;&quot; /&gt; The &lt;a href=&quot;https://www.bioconductor.org/packages/release/bioc/html/waddR.html&quot;&gt;R/Bioconductor waddR package&lt;/a&gt; offers statistical tests based on the 2-Wasserstein distance for detecting and characterizing differences between two distributions given in the form of samples. Functions for calculating the 2-Wasserstein distance and testing for differential distributions are...</content>
+ </entry>
+
+ 
+
+</feed>
