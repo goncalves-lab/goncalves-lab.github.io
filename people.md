@@ -20,16 +20,16 @@ tags: [photos]
 <div><img class="left-aligned-image" src="https://www.dkfz.de/en/somatische-evolution-frueherkennung/Images/Goncalves-Filimon-Angela_8.jpg" width="100" alt="Angela Goncalves" /></div>Angela Goncalves
 
 
-### Staff
+### Research technicians
 <div><img class="left-aligned-image" src="/img/ns.jpeg" alt="Nina Schneider" /></div>
 Nina Schneider
 <div><img class="left-aligned-image" src="https://www.dkfz.de/de/regulatorische-genomik/Francesca_0.png" alt="Francesca Coraggio" /></div>
 Francesca Coraggio
 
 ### Postdoctoral fellows        
-<div><img class="left-aligned-image" src="/img/pbc.jpeg" alt="Pablo Baeza-Centurion" /></div>Pablo Baeza-Centurion
 <div><img class="left-aligned-image" src="/img/iw.jpeg" alt="Ivana Winkler" /></div>Ivana Winkler
 <div><img class="left-aligned-image" src="https://www.dkfz.de/de/regulatorische-genomik/busa_v_pic_0.jpg" alt="Veronica Busa" /></div>Veronica Busa
+<div><img class="left-aligned-image" src="/img/pbc.jpeg" alt="Pablo Baeza-Centurion" /></div>Pablo Baeza-Centurion
  
 ### PhD students 
 <div><img class="left-aligned-image" src="https://www.dkfz.de/de/neurobiologie-von-gehirntumoren/LeoFoerster.jpg" alt="Leo Foerster" /></div>Leo Foerster
