@@ -3,7 +3,7 @@ layout: page
 title: Home
 description: 
 ---
-## Welcome to the Somatic Evolution & Early Detection lab @ DKFZ
+## The Somatic Evolution & Early Detection lab @ DKFZ
 Our group aims to understand the processes of somatic and regulatory genome evolution during ageing and carcinogenesis. We combine experimental approaches with bioinformatic analyses and statistical modelling (20% experimental, 80% computational), with a long-term view of improving the early detection of cancer.
 
 ## Current projects
