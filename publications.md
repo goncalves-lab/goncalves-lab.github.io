@@ -10,7 +10,7 @@ tags: []
 
 * Daugelaite K., Lacour P., Winkler I., Koch M., Schneider A., Schneider N., Tolkachov A., Nguyen X.P., Vilkaite A., Rehnitz J., Odom D.T., Goncalves A. (2023) Superovulation and ageing perturb oocyte-granulosa cell transcriptomes and communication. Submitted. 
 
-* Winkler, I. and Goncalves A. (2023). Do mammals have menopause? Cell. 
+* Winkler, I. and Goncalves A. (2023). [Do mammals have menopause?](https://authors.elsevier.com/a/1h%7EXhL7PXmd-o) Cell Volume 186, Issue 22, 26 October 2023, Pages 4729-4733. 
 
 * Behm M., Baeza-Centurion P., Penso-Dolfin L., Botey-Bataller F., Hirschmüller N., Delaunay S., Koch M.L., Del Prete S., Sohn D., Reifenberg C., Schopp M., Lammers F., Sole-Boldo L., Dutton J., Begall S., Khaled W.T., St. John Smith E., Odom D.T., Frye M., Goncalves A. (2023) [An interactive cellular ecosystem blocks epithelial transformation in naked mole-rat](https://doi.org/10.1101/2023.10.10.561212). bioRxiv.
 
