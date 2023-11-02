@@ -8,7 +8,7 @@ tags: []
 
 ### Somatic evolution, ageing and carcinogenesis
 
-* Daugelaite K., Lacour P., Winkler I., Koch M., Schneider A., Schneider N., Tolkachov A., Nguyen X.P., Vilkaite A., Rehnitz J., Odom D.T., Goncalves A. (2023) Superovulation and ageing perturb oocyte-granulosa cell transcriptomes and communication. Submitted. 
+* Daugelaite K., Lacour P., Winkler I., Koch M., Schneider A., Schneider N., Tolkachov A., Nguyen X.P., Vilkaite A., Rehnitz J., Odom D.T., Goncalves A. (2023) [Superovulation and ageing perturb oocyte-granulosa cell transcriptomes and communication](https://www.biorxiv.org/content/10.1101/2023.10.30.563978v1). bioRxiv. 
 
 * Winkler, I. and Goncalves A. (2023). [Do mammals have menopause?](https://authors.elsevier.com/a/1h%7EXhL7PXmd-o) Cell Volume 186, Issue 22, 26 October 2023, Pages 4729-4733. 
 
