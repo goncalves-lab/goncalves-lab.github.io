@@ -17,7 +17,7 @@ tags: []
 <div class='altmetric-embed' data-badge-type='donut' data-doi="10.1101/2023.10.10.561212"></div>
 
 * Winkler I., Tolkachov A., Lammers F., Lacour P., Schneider N., Koch M.L., Panten J., Grünschläger F., Daugelaite K., Poth T., Haas S., Odom D.T., Goncalves A. (2023) [The function and decline of the female reproductive tract at single-cell resolution](https://www.biorxiv.org/content/10.1101/2022.10.26.513823v1). bioRxiv.
-<div class='altmetric-embed' data-badge-type='donut' data-doi="10.1101/2022.10.26.513823v1"></div>
+<div class='altmetric-embed' data-badge-type='donut' data-doi="10.1101/2022.10.26.513823"></div>
 
 ### Methods/software
 
