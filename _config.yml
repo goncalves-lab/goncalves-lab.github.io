@@ -28,6 +28,7 @@ plugins: [jekyll-paginate]
 gems:
 #  - jekyll-paginate
   - jekyll-sitemap
+  - jekyll-gist
 
 # Custom variables
 version: "1.0.0"
@@ -39,3 +40,6 @@ reverse: false
 
 collections:
   - group_members
+
+# Google Analytics
+google_analytics: G-TSPKMTVD83
