@@ -8,13 +8,14 @@ tags: []
 
 ### Somatic evolution, ageing and carcinogenesis
 
+
+* Winkler I, Tolkachov A., Lammers F., Lacour P., Daugelaite K., Schneider N., Koch M., Panten J., Grünschläger F., Poth T., Ávila B.M., Schneider A., Haas S., Odom D.T. and Goncalves A.(2023) [The cycling and aging mouse female reproductive tract at single-cell resolution](https://doi.org/10.1016/j.cell.2024.01.021). Cell. Volume 187, Issue 4, 981 - 998.e25.
+
 * Daugelaite K., Lacour P., Winkler I., Koch M., Schneider A., Schneider N., Tolkachov A., Nguyen X.P., Vilkaite A., Rehnitz J., Odom D.T., Goncalves A. (2023) [Superovulation and ageing perturb oocyte-granulosa cell transcriptomes and communication](https://www.biorxiv.org/content/10.1101/2023.10.30.563978v1). bioRxiv. 
 
 * Winkler, I. and Goncalves A. (2023). [Do mammals have menopause?](https://authors.elsevier.com/a/1h%7EXhL7PXmd-o) Cell Volume 186, Issue 22, 26 October 2023, Pages 4729-4733. 
 
 * Behm M., Baeza-Centurion P., Penso-Dolfin L., Botey-Bataller F., Hirschmüller N., Delaunay S., Koch M.L., Del Prete S., Sohn D., Reifenberg C., Schopp M., Lammers F., Sole-Boldo L., Dutton J., Begall S., Khaled W.T., St. John Smith E., Odom D.T., Frye M., Goncalves A. (2023) [An interactive cellular ecosystem blocks epithelial transformation in naked mole-rat](https://doi.org/10.1101/2023.10.10.561212). bioRxiv.
-
-* Winkler I, Tolkachov A., Lammers F., Lacour P., Daugelaite K., Schneider N., Koch M., Panten J., Grünschläger F., Poth T., Ávila B.M., Schneider A., Haas S., Odom D.T. and Goncalves A.(2023) [The cycling and aging mouse female reproductive tract at single-cell resolution](https://doi.org/10.1016/j.cell.2024.01.021). Cell. Volume 187, Issue 4, 981 - 998.e25.
 
 ### Methods/software
 
@@ -63,8 +64,3 @@ tags: []
 
 * Zorea J, Prasad M, Cohen L, Li N, Schefzik R, Ghosh S, Rotblat B, Brors B, Elkabets M. (2018) IGF1R upregulation confers resistance to isoform-specific inhibitors of PI3K in PIK3CA-driven ovarian cancer. Cell Death Dis.
 
-<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
-
-<div class='altmetric-embed' data-badge-type='donut' data-doi="10.1101/2023.10.30.563978v1"></div>
-<div class='altmetric-embed' data-badge-type='donut' data-doi="10.1101/2023.10.10.561212"></div>
-<div class='altmetric-embed' data-badge-type='donut' data-doi="10.1101/2022.10.26.513823"></div>
