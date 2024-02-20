@@ -14,7 +14,7 @@ tags: []
 
 * Behm M., Baeza-Centurion P., Penso-Dolfin L., Botey-Bataller F., Hirschmüller N., Delaunay S., Koch M.L., Del Prete S., Sohn D., Reifenberg C., Schopp M., Lammers F., Sole-Boldo L., Dutton J., Begall S., Khaled W.T., St. John Smith E., Odom D.T., Frye M., Goncalves A. (2023) [An interactive cellular ecosystem blocks epithelial transformation in naked mole-rat](https://doi.org/10.1101/2023.10.10.561212). bioRxiv.
 
-* Winkler I., Tolkachov A., Lammers F., Lacour P., Schneider N., Koch M.L., Panten J., Grünschläger F., Daugelaite K., Poth T., Haas S., Odom D.T., Goncalves A. (2023) [The function and decline of the female reproductive tract at single-cell resolution](https://www.biorxiv.org/content/10.1101/2022.10.26.513823v1). bioRxiv.
+* Winkler I, Tolkachov A., Lammers F., Lacour P., Daugelaite K., Schneider N., Koch M., Panten J., Grünschläger F., Poth T., Ávila B.M., Schneider A., Haas S., Odom D.T. and Goncalves A.(2023) [The cycling and aging mouse female reproductive tract at single-cell resolution](https://doi.org/10.1016/j.cell.2024.01.021). Cell. Volume 187, Issue 4, 981 - 998.e25.
 
 ### Methods/software
 
