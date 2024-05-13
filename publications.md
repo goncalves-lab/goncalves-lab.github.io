@@ -8,10 +8,11 @@ tags: []
 
 ### Somatic evolution, ageing and carcinogenesis
 
+* Schwalie, P.C., Bafligil C., Russeil J., Ratter S., Biocanin M., Zachara M., Canny G., Aasna E., Deplancke B., Goncalves A. (2024) [Single-cell characterization of human menstrual fluid in homeostasis and endometriosis.](https://www.medrxiv.org/content/10.1101/2024.05.06.24306766v1) medRxiv 2024.05.06.24306766.
 
 * Winkler I, Tolkachov A., Lammers F., Lacour P., Daugelaite K., Schneider N., Koch M., Panten J., Grünschläger F., Poth T., Ávila B.M., Schneider A., Haas S., Odom D.T. and Goncalves A.(2023) [The cycling and aging mouse female reproductive tract at single-cell resolution](https://doi.org/10.1016/j.cell.2024.01.021). Cell. Volume 187, Issue 4, 981 - 998.e25.
 
-* Daugelaite K., Lacour P., Winkler I., Koch M., Schneider A., Schneider N., Tolkachov A., Nguyen X.P., Vilkaite A., Rehnitz J., Odom D.T., Goncalves A. (2023) [Superovulation and ageing perturb oocyte-granulosa cell transcriptomes and communication](https://www.biorxiv.org/content/10.1101/2023.10.30.563978v1). bioRxiv. 
+* Daugelaite K., Lacour P., Winkler I., Koch M., Schneider A., Schneider N., Tolkachov A., Nguyen X.P., Vilkaite A., Rehnitz J., Odom D.T., Goncalves A. (2023) [Superovulation and ageing perturb oocyte-granulosa cell transcriptomes and communication](https://www.biorxiv.org/content/10.1101/2023.10.30.563978v1). bioRxiv (2023). 
 
 * Winkler, I. and Goncalves A. (2023). [Do mammals have menopause?](https://authors.elsevier.com/a/1h%7EXhL7PXmd-o) Cell Volume 186, Issue 22, 26 October 2023, Pages 4729-4733. 
 
@@ -31,7 +32,7 @@ tags: []
 
 * Foerster L.C., Kaya O., Wüst V., Bekavac M., Ziegler K.C., Akcay V., Stinchcombe N., Perez N.G., Ma X., Sadik A.,  Le P.U., Petrecca K., Opitz C., Liu H., Wirtz C.R., Anders S., Goncalves A. and Martin-Villalba A. (2023) [Identification of astrocyte-driven pseudolineages reveals clinical stratification and therapeutic targets in Glioblastoma](https://doi.org/10.1101/2023.09.15.557713). bioRxiv.
 
-* Wiemann S., Beumers L., Vlachavas E., Borgoni S., Schwarzmüller L., Penso-Dolfin L., Michels B., Sofyali E., Burmester S., Heiss S., Wilhelm H., Yarden Y., Helm D., Will R., Goncalves A. (2023) [Clonal heterogeneity in ER+ breast cancer reveals the proteasome and PKC as potential therapeutic targets](https://doi.org/10.21203/rs.3.rs-2813593/v1). Preprint in Research Square.
+* Wiemann S., Beumers L., Vlachavas E., Borgoni S., Schwarzmüller L., Penso-Dolfin L., Michels B., Sofyali E., Burmester S., Heiss S., Wilhelm H., Yarden Y., Helm D., Will R., Goncalves A. (2023) [Clonal heterogeneity in ER+ breast cancer reveals the proteasome and PKC as potential therapeutic targets](https://doi.org/10.21203/rs.3.rs-2813593/v1). npj Breast Cancer, 9, 97.
 
 ### Population genomics
 
