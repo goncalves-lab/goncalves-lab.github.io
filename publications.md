@@ -8,7 +8,7 @@ tags: []
 
 ### Somatic evolution, ageing and carcinogenesis
 
-* Schwalie, P.C., Bafligil C., Russeil J., Ratter S., Biocanin M., Zachara M., Canny G., Aasna E., Deplancke B., Goncalves A. (2024) [Single-cell characterization of human menstrual fluid in homeostasis and endometriosis.](https://www.medrxiv.org/content/10.1101/2024.05.06.24306766v1) medRxiv 2024.05.06.24306766.
+* Schwalie, P.C., Bafligil C., Russeil J., Ratter S., Biocanin M., Zachara M., Canny G., Aasna E., Deplancke B., Goncalves A. (2024) [Single-cell characterization of human menstrual fluid in homeostasis and endometriosis.](https://doi.org/10.7554/eLife.99558.1) eLife 99558.1.sa2.
 
 * Winkler I, Tolkachov A., Lammers F., Lacour P., Daugelaite K., Schneider N., Koch M., Panten J., Grünschläger F., Poth T., Ávila B.M., Schneider A., Haas S., Odom D.T. and Goncalves A.(2023) [The cycling and aging mouse female reproductive tract at single-cell resolution](https://doi.org/10.1016/j.cell.2024.01.021). Cell. Volume 187, Issue 4, 981 - 998.e25.
 
