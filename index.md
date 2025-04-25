@@ -24,9 +24,6 @@ Why do some organisms, including many humans, never develop cancer in their life
 ### Comparative genomics of female reproductive ageing
 In humans, the female reproductive system plays a significant role in shaping life- and health- span. In our group we functionally model homeostasis and dysregulation of the female reproductive tract over ageing and upon hormonal perturbation in mouse models and in human, using high-throughput sequencing of single-cell experiments.
 
-### Method development for single-cell data
-The throughput of routine single-cell experiments is projected to reach a million cells by the beginning of 2023, which poses important computational challenges for the analysis of these datasets. To alleviate the issue we apply transport theory to develop lightweight non-parametric methods for the analysis of large single-cell experiments.
-
 ### Digital prevention
 
 The digital prevention group within the National Cancer Prevention Center (NCPC) aims to expand our activities in prevention through the development of publicly available personalised cancer risk calculators. The group has close links with the DKFZ epidemiology units and straddles the subjects of public health, science/risk communication and software engineering.
