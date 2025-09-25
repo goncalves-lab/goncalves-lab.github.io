@@ -8,7 +8,7 @@ tags: []
 
 ### Ageing and carcinogenesis
 
-* Daugelaite, K.#, Lacour, P.#, Winkler, I.# Koch M., Schneider A., Schneider N., Tolkachov A., Nguyen X.P., Vilkaite A., Rehnitz J., Odom D.T., Goncalves A. (2025) [Granulosa cell transcription is similarly impacted by superovulation and aging and predicts early embryonic trajectories](https://doi.org/10.1038/s41467-025-58451-9). Nat Commun 16, 3658.
+* Daugelaite, K.#, Lacour, P.#, Winkler, I.#, Koch M., Schneider A., Schneider N., Tolkachov A., Nguyen X.P., Vilkaite A., Rehnitz J., Odom D.T., Goncalves A. (2025) [Granulosa cell transcription is similarly impacted by superovulation and aging and predicts early embryonic trajectories](https://doi.org/10.1038/s41467-025-58451-9). Nat Commun 16, 3658.
 
 * Schwalie, P.C., Bafligil C., Russeil J., Ratter S., Biocanin M., Zachara M., Canny G., Aasna E., Deplancke B., Goncalves A. (2024) [Single-cell characterization of human menstrual fluid in homeostasis and endometriosis.](https://doi.org/10.7554/eLife.99558.1) eLife 99558.1.sa2.
 
@@ -18,7 +18,7 @@ tags: []
 
 * Behm M., Baeza-Centurion P., Penso-Dolfin L., Botey-Bataller F., Hirschmüller N., Delaunay S., Koch M.L., Del Prete S., Sohn D., Reifenberg C., Schopp M., Lammers F., Sole-Boldo L., Dutton J., Begall S., Khaled W.T., St. John Smith E., Odom D.T., Frye M., Goncalves A. (2023) [An interactive cellular ecosystem blocks epithelial transformation in naked mole-rat](https://doi.org/10.1101/2023.10.10.561212). bioRxiv.
 
-### Methods/software
+### Methods and software
 
 * Schefzik R., Flesch J., Goncalves A. (2020). [Fast identification of differential distributions in single-cell RNA-sequencing data with waddR](https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btab226/6207964). Bioinformatics, btab226.
 
@@ -27,6 +27,10 @@ tags: []
 *	Turro E., Su S., Goncalves A., Coin L.J.M, Richardson S. and Lewin A. (2011) [Haplotype and isoform specific expression estimation using multi-mapping RNA-seq reads](https://doi.org/10.1186/gb-2011-12-2-r13). Genome Biology 12 (2), 1. 
 
 *	Goncalves A., Tikhonov A., Brazma A. and Kapushesky M. (2011) [A pipeline for RNA-seq data processing and quality assessment](https://doi.org/10.1093/bioinformatics/btr012). Bioinformatics 27 (6), 867-869. 
+
+### Genomes
+
+Bekavac M., Coimbra R., Busa V.F., Behm M., Wagner R.E., Goncalves A., Begall S., Frye M., Odom D.T. (2025) [De novo genome assembly of Ansell’s mole-rat (Fukomys anselli)](https://doi.org/10.1101/2025.06.03.657636). bioRxiv 2025.06.03.657636.
 
 ### Cancer genomics
 
