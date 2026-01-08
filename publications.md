@@ -30,7 +30,7 @@ tags: []
 
 ### Genomes
 
-* Bekavac M., Coimbra R., Busa V.F., Behm M., Wagner R.E., Goncalves A., Begall S., Frye M., Odom D.T. (2025) [De novo genome assembly of Ansell’s mole-rat (Fukomys anselli)](https://doi.org/10.1101/2025.06.03.657636). bioRxiv 2025.06.03.657636.
+* Milica Bekavac, Raphael Coimbra, Veronica F Busa, Mikaela Behm, Rebecca E Wagner, Angela Goncalves, Sabine Begall, Michaela Frye, Duncan T Odom, [De novo genome assembly of Ansell's mole-rat (Fukomys anselli)](https://doi.org/10.1093/g3journal/jkaf271), G3 Genes|Genomes|Genetics, Volume 16, Issue 1, January 2026, jkaf271, https://doi.org/10.1093/g3journal/jkaf271 
 
 ### Cancer genomics
 
