@@ -30,11 +30,11 @@ tags: []
 
 ### Genomes
 
-* Milica Bekavac, Raphael Coimbra, Veronica F Busa, Mikaela Behm, Rebecca E Wagner, Angela Goncalves, Sabine Begall, Michaela Frye, Duncan T Odom, [De novo genome assembly of Ansell's mole-rat (Fukomys anselli)](https://doi.org/11.1093/g3journal/jkaf271), G3 Genes\|Genomes\|Genetics, Volume 16, Issue 1, January 2026, jkaf271, https://doi.org/10.1093/g3journal/jkaf271 
+* Bekavac, M., Coimbra, R., Busa, V. F., Behm, M., Wagner, R. E., Goncalves, A., Begall, S., Frye, M., & Odom, D. T. (2026). [De novo genome assembly of Ansell’s mole-rat ( Fukomys anselli )](https://doi.org/10.1093/g3journal/jkaf271). G3: Genes, Genomes, Genetics, 16(1), jkaf271. https://doi.org/10.1093/g3journal/jkaf271
 
 ### Cancer genomics
 
-* Foerster L.C., Kaya O., Wüst V., Bekavac M., Ziegler K.C., Akcay V., Stinchcombe N., Perez N.G., Ma X., Sadik A.,  Le P.U., Petrecca K., Opitz C., Liu H., Wirtz C.R., Anders S., Goncalves A. and Martin-Villalba A. (2023) [Identification of astrocyte-driven pseudolineages reveals clinical stratification and therapeutic targets in Glioblastoma](https://doi.org/10.1101/2023.09.15.557713). bioRxiv.
+* Foerster, L. C., Kaya, O., Wüst, V., Danciu, D.-P., Akcay, V., Bekavac, M., Ziegler, K. C., Stinchcombe, N., Tang, A., Kleber, S., Tang, J. L. Y., Brunken, J., Lois-Bermejo, I., Gesteira-Perez, N., Ma, X., Sadik, A., Le, P. U., Petrecca, K., Opitz, C. A., … Martin-Villalba, A. (2025). [Cross-species comparison reveals therapeutic vulnerabilities halting glioblastoma progressionp](https://doi.org/10.1038/s41467-025-62528-w). Nature Communications, 16(1), 7250. https://doi.org/10.1038/s41467-025-62528-w
 
 * Wiemann S., Beumers L., Vlachavas E., Borgoni S., Schwarzmüller L., Penso-Dolfin L., Michels B., Sofyali E., Burmester S., Heiss S., Wilhelm H., Yarden Y., Helm D., Will R., Goncalves A. (2023) [Clonal heterogeneity in ER+ breast cancer reveals the proteasome and PKC as potential therapeutic targets](https://doi.org/10.21203/rs.3.rs-2813593/v1). npj Breast Cancer, 9, 97.
 
